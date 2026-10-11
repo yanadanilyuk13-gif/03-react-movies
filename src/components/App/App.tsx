@@ -5,7 +5,7 @@ import { searchMovies } from "../../services/movieService";
 import type { Movie } from "../../types/movie";
 import MovieGrid from "../MovieGrid/MovieGrid";
 import Loader from "../Loader/Loader";
-import ErrorMessage from "../ErrorMassage/ErrorMessage";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import MovieModal from "../MovieModal/MovieModal";
 
 export default function App() {
@@ -27,7 +27,8 @@ export default function App() {
         return;
       }
       setMovies(results);
-    } catch {
+    } catch (error) {
+      console.error("Error fetching movies:", error);
       setIsError(true);
       toast.error("Failed to fetch movies. Please try again.");
     } finally {
@@ -46,8 +47,8 @@ export default function App() {
     <>
       <SearchBar onSearch={handleSearch} />
       {isLoading && <Loader />}
-      {isError && <ErrorMessage />}
-      {movies.length > 0 && (
+      {!isLoading && isError && <ErrorMessage />}
+      {!isLoading && !isError && movies.length > 0 && (
         <MovieGrid movies={movies} onSelect={handleSelect} />
       )}
       {selectedMovie && (
