@@ -45,7 +45,7 @@ export default function App() {
 
   return (
     <>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSubmit={handleSearch} />
       {isLoading && <Loader />}
       {!isLoading && isError && <ErrorMessage />}
       {!isLoading && !isError && movies.length > 0 && (
